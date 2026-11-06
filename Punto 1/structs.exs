@@ -3,14 +3,24 @@ defmodule Conexion do
 
   def parse(linea) do
     case linea |> String.split(",") |> Enum.map(&String.trim/1) do
-      [a, b, d] when a != "" and b != "" ->
-        case Integer.parse(d) do
-          {n, ""} -> {:ok, %Conexion{origen: a, destino: b, distancia: n}}
-          _ -> {:error, "distancia no numérica"}
+      [a, b, d] ->
+        cond do
+          a == "" or b == "" ->
+            {:error, "campos faltantes (hay un campo vacío)"}
+
+          true ->
+            case Integer.parse(d) do
+              {n, ""} when n < 0 -> {:error, "distancia negativa (#{n})"}
+              {n, ""} -> {:ok, %Conexion{origen: a, destino: b, distancia: n}}
+              _ -> {:error, "distancia no numérica (\"#{d}\")"}
+            end
         end
 
-      _ ->
-        {:error, "campos faltantes o sobrantes"}
+      campos when length(campos) < 3 ->
+        {:error, "campos faltantes (se esperaban 3 y hay #{length(campos)})"}
+
+      campos ->
+        {:error, "campos sobrantes (se esperaban 3 y hay #{length(campos)})"}
     end
   end
 end
