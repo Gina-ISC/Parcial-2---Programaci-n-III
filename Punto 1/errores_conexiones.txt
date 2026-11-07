@@ -1,0 +1,4 @@
+Línea 10: Armenia,Pereira -> campos faltantes (se esperaban 3 y hay 2)
+Línea 11: Armenia,Cali,abc -> distancia no numérica ("abc")
+Línea 12: Armenia,,12 -> campos faltantes (hay un campo vacío)
+Línea 13: Cali,Palmira,-4 -> distancia negativa (-4)
